@@ -1,28 +1,42 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام نتائج الطلبة</title>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول</title>
 </head>
-
 <body>
 
-<h1>جامعة بغداد</h1>
-<h2>كلية الإدارة والاقتصاد</h2>
-<h3>قسم العلوم المالية والمصرفية</h3>
+    <h2>نظام تسجيل الدخول</h2>
 
-<hr>
+    <input type="text" id="studentId" placeholder="الرقم الجامعي">
+    <br><br>
 
-<h2>تسجيل دخول الطالب</h2>
+    <input type="password" id="password" placeholder="كلمة المرور">
+    <br><br>
 
-<label>الرقم الجامعي</label><br>
-<input type="text" placeholder="أدخل الرقم الجامعي"><br><br>
+    <button onclick="login()">دخول</button>
 
-<label>كلمة المرور</label><br>
-<input type="password" placeholder="أدخل كلمة المرور"><br><br>
+    <p id="message"></p>
 
-<button>دخول</button>
+    <script>
+        async function login() {
+            const id = document.getElementById("studentId").value;
+            const pass = document.getElementById("password").value;
+
+            const response = await fetch("students.json");
+            const students = await response.json();
+
+            const user = students.find(s => s.student_id === id && s.password === pass);
+
+            if (user) {
+                document.getElementById("message").innerHTML =
+                    "مرحباً " + user.name + " تم تسجيل الدخول بنجاح 🎉";
+            } else {
+                document.getElementById("message").innerHTML =
+                    "الرقم أو كلمة المرور خطأ ❌";
+            }
+        }
+    </script>
 
 </body>
 </html>
